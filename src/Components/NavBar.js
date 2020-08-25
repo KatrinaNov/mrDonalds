@@ -44,7 +44,6 @@ const LogIn = styled.button`
   color: white;
   background-color: transparent;
   border: none;
-  cursor: pointer;
 `;
 
 export const NavBar = () => (
