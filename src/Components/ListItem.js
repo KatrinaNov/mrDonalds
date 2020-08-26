@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const List = styled.ul`
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
 `;
 
@@ -34,12 +35,13 @@ const Item = styled.li`
   }
 `;
 
-export const ListItem = ({ itemList}) => (
+export const ListItem = ({ itemList, setOpenItem}) => (
   <List>
     {itemList.map(item => (
       <Item 
         key={item.id} 
         img={item.img}
+        onClick={() => setOpenItem(item)}
       >
         <p>{item.name}</p>
         <p>{item.price.toLocaleString('ru-Ru', {style: 'currency', currency: 'RUB'})}</p>

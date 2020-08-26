@@ -10,17 +10,24 @@ const MenuStyled = styled.main`
 `;
 const SectionMenu = styled.section`
   padding: 15px;
+  text-align: center;
 `;
-export const Menu = () => (
+export const Menu = ({ setOpenItem}) => (
   <MenuStyled>
     <Banner />
     <SectionMenu>
       <h2>Бургер</h2>
-      <ListItem itemList={dbMenu.burger}/>
+      <ListItem 
+        itemList={dbMenu.burger}
+        setOpenItem={setOpenItem}
+      />
     </SectionMenu>
     <SectionMenu>
       <h2>Закуски / Напитки</h2>
-      <ListItem itemList={dbMenu.other}/>
+      <ListItem 
+        itemList={dbMenu.other}
+        setOpenItem={setOpenItem}
+      />
     </SectionMenu>
   </MenuStyled>
 );
