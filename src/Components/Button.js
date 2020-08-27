@@ -5,11 +5,11 @@ export const Button = styled.button`
   font-size: 21px;
   line-height: 25px;
   color: #FFFFFF;
-  padding: 20px 80px;
+  padding: 20px;
   border-color: transparent;
   margin: auto;
   margin-bottom: 40px;
-  max-width: 250px;
+  width: 250px;
   transition-property: color, border-color, background;
   transition-duration: 0.5s;
   &:hover {
