@@ -6,8 +6,15 @@ export const Button = styled.button`
   line-height: 25px;
   color: #FFFFFF;
   padding: 20px 80px;
-  border: none;
+  border-color: transparent;
   margin: auto;
   margin-bottom: 40px;
   max-width: 250px;
+  transition-property: color, border-color, background;
+  transition-duration: 0.5s;
+  &:hover {
+    background: #fff;
+    color: #299B01;
+    border-color: #299B01;
+  }
 `;
