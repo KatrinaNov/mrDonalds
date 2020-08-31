@@ -14,7 +14,6 @@ function App() {
   const openItem = useOpenItem(); // хук
   const orders = useOrders(); // хук
 
-  console.log('Item', openItem);
   return (
     <>
       <GlobalStyle/>
