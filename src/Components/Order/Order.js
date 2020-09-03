@@ -10,7 +10,7 @@ const OrderStyled = styled.section`
   top: 80px;
   left: 0;
   background: #fff;
-  min-width: 380px;
+  width: 380px;
   height: calc(100% - 80px);
   box-shadow: 3px 4px 5px rgba(0, 0, 0, 0.25);
   padding: 20px;
@@ -54,19 +54,21 @@ const EmptyList = styled.p`
 export const Order = ({ orders }) => {
 
   const total = orders.reduce((result, order) => totalPriceItems(order) + result , 0);
+
+  const totalCounter = orders.reduce((result, order) => order.count + result , 0);
   return (
     <OrderStyled>
      <OrderTitle>Ваш заказ</OrderTitle>
      <OrderContent>
        {orders.length ? 
        <OrderList>
-         {orders.map(order => <OrderListItem order={order} />)}
+         {orders.map(order => <OrderListItem order={order} key={order.id}/>)}
        </OrderList> : 
        <EmptyList>Список заказов пуст</EmptyList>}
      </OrderContent>
      <Total>
        <span>Итого</span>
-       <span>5</span>
+       <span>{totalCounter}</span>
        <TotalPrice>{formatCurrency(total)}</TotalPrice>
      </Total>
      <Button>Оформить</Button>

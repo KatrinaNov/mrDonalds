@@ -5,6 +5,10 @@ import {CountItem} from './CountItem';
 import {useCount} from '../Hooks/useCount';
 import { totalPriceItems } from '../Functions/secondaryFunctions';
 import { formatCurrency } from '../Functions/secondaryFunctions';
+import { Toppings } from './Toppings';
+import { Choices} from './Choices';
+import { useToppings } from '../Hooks/useToppings';
+import { useChoices } from '../Hooks/useChoices';
 
 
 
@@ -51,11 +55,17 @@ const ModalContent = styled.div`
   padding: 30px;
   justify-content: space-around;
 `;
-
+const TotalPriceItem = styled.div`
+display: flex;
+justify-content: space-between;
+`;
 
 export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
 
   const counter = useCount();
+  const toppings = useToppings(openItem);
+  const choices = useChoices(openItem);
+
   const closeModal = (e) => {
     if (e.target.id === 'overlay') {
       setOpenItem(null);
@@ -64,7 +74,9 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
 
   const order = {
     ...openItem,
-    count: counter.count
+    count: counter.count,
+    topping: toppings.toppings,
+    choice: choices.choice,
   };
 
   
@@ -74,11 +86,7 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
     // закроем модальное окно
     setOpenItem(null);
   };
-
-  const TotalPriceItem = styled.div`
-    display: flex;
-    justify-content: space-between;
-  `;
+ 
   return (
     <Overlay id="overlay" onClick={closeModal}>
       <Modal>
@@ -89,12 +97,14 @@ export const ModalItem = ({ openItem, setOpenItem, orders, setOrders}) => {
         </ModalTitle>
         <ModalContent>
           <CountItem {...counter}/>
+          {openItem.toppings && <Toppings {...toppings} />}
+          {openItem.choices && <Choices {...choices} openItem={openItem}/>}
           <TotalPriceItem>
             <span>Цена</span>
             <span>{formatCurrency(totalPriceItems(order))}</span>
           </TotalPriceItem>
         </ModalContent>        
-        <Button onClick={addToOrder}>Добавить</Button>
+        <Button onClick={addToOrder} disabled={order.choices && !order.choice}>Добавить</Button>
       </Modal>
     </Overlay>
   );
