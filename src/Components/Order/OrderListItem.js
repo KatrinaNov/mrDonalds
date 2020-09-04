@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import trashImg from '../../image/trash.svg';
 import { totalPriceItems } from '../Functions/secondaryFunctions';
@@ -9,6 +9,7 @@ const OrderItemStyled = styled.li`
   display: flex;
   flex-wrap: wrap;
   margin: 15px 0;
+  cursor: pointer;
 `;
 
 const ItemName = styled.span`
@@ -37,13 +38,15 @@ export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
   const topping = order.topping.filter(item => item.checked)
         .map(item => item.name)
         .join(', ');
-        
+// чтобы на кнопку Удалить не открывалась модалка
+  const refDeleteButton = useRef(null);
+
   return (
-    <OrderItemStyled onClick={() => setOpenItem({...order, index})}>
+    <OrderItemStyled onClick={(e) => e.target !== refDeleteButton.current && setOpenItem({...order, index})}>
       <ItemName>{order.name} {order.choice}</ItemName>
       <span>{order.count}</span>
       <ItemPrice>{formatCurrency(totalPriceItems(order))}</ItemPrice>
-      <TrashButton onClick={() => deleteItem(index)}/>
+      <TrashButton ref={refDeleteButton} onClick={() => deleteItem(index)}/>
       {topping && <Toppings>Допы: {topping}</Toppings>}
     </OrderItemStyled>
   )
