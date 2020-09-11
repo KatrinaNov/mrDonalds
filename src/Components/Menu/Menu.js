@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import  '../Styles/GlobalStyle'
 import {ListItem} from './ListItem';
 import {Banner} from './Banner';
 import { useFetch} from '../Hooks/useFetch';
+import { Context } from '../Functions/context';
+
 
 const MenuStyled = styled.main`
   background-color: #ccc;
@@ -69,8 +71,8 @@ const Shadow = styled.div`
 `;
 
 
-export const Menu = ({ setOpenItem}) => {
-
+export const Menu = () => {
+  const {openItem: { setOpenItem }} = useContext(Context);
   const res = useFetch();
   const dbMenu = res.response;
   return (
