@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
 const ChoiceWrap = styled.div`
   margin: 0 auto;
   column-count: 2;

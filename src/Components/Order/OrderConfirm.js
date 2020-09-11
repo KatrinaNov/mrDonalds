@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
-import {Overlay} from '../Modal/ModalItem';
-import { OrderTitle, Total, TotalPrice } from '../Order/Order';
+import {OrderTitle, Total, TotalPrice, Overlay} from '../Styles/CommonStyles';
 import { Button } from '../Interface/Button';
 import { projection } from '../Functions/secondaryFunctions';
 import { totalPriceItems } from '../Functions/secondaryFunctions';
 import { formatCurrency } from '../Functions/secondaryFunctions';
+import { Context } from '../Functions/context';
 
 const Modal = styled.div`
   background: white;
@@ -34,12 +34,16 @@ const sendOrder = (dataBase, orders, authentication) => {
   });  
 };
 
-
-
-export const OrderConfirm = ({ orders, setOrders, authentication, firebaseDatabase, setOpenOrderConfirm }) => {
+export const OrderConfirm = () => {
+  const {
+    orders: {orders, setOrders},
+    auth: {authentication},
+    orderConfirm: {setOpenOrderConfirm},
+    firebaseDatabase
+  } = useContext(Context); 
+  
   const dataBase = firebaseDatabase();
   const total = orders.reduce((result, order) => totalPriceItems(order) + result , 0);
-
 
   return (
     <Overlay>
@@ -57,7 +61,6 @@ export const OrderConfirm = ({ orders, setOrders, authentication, firebaseDataba
         }}>Подтвердить</Button>
       </Modal>
     </Overlay>
-  )
- 
+  ) 
 };
 

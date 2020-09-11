@@ -15,7 +15,6 @@ import { OrderConfirm } from './Components/Order/OrderConfirm';
 import { useOrderConfirm } from './Components/Hooks/useOrderConfirm';
 import { Context} from './Components/Functions/context';
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyBe-lpiNAifsS3hw2IjO1qCL3PyO4j1AAc",
   authDomain: "mrdonalds-e377d.firebaseapp.com",
@@ -30,7 +29,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 function App() {
-
   const auth = useAuth(firebase.auth);
   const openItem = useOpenItem(); // хук
   const orders = useOrders();
@@ -40,22 +38,18 @@ function App() {
   return (
     <Context.Provider value={{
       auth,
-      openItem
+      openItem,
+      orders,
+      orderConfirm,
+      firebaseDatabase: firebase.database
     }}>
-      <GlobalStyle/>
-      <NavBar/>
-      <Order 
-        {...orders} 
-        {...openItem} 
-        {...auth}
-        
-        {...orderConfirm}
-      />
-      <Menu/> 
+      <GlobalStyle />
+      <NavBar />
+      <Order />
+      <Menu /> 
         {/* если есть openItem  */}
-      {openItem.openItem && <ModalItem {...openItem} {...orders} />}  
-      {orderConfirm.openOrderConfirm && 
-        <OrderConfirm {...orders} firebaseDatabase={firebase.database} {...auth} {...orderConfirm}/>}
+      {openItem.openItem && <ModalItem />}  
+      {orderConfirm.openOrderConfirm && <OrderConfirm />}
     </Context.Provider>
   );
 }

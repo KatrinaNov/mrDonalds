@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import {OrderTitle, Total, TotalPrice} from '../Styles/CommonStyles';
 import { Button } from '../Interface/Button';
 import { OrderListItem } from './OrderListItem';
-import { totalPriceItems } from '../Functions/secondaryFunctions';
-import { formatCurrency } from '../Functions/secondaryFunctions';
+import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
+import { Context } from '../Functions/context';
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -17,44 +18,20 @@ const OrderStyled = styled.section`
   display: flex;
   flex-direction: column;
 `;
-
-export const OrderTitle = styled.h2`
-  text-align: center;
-  text-transform: uppercase;
-  margin-bottom: 30px;
-`;
-
 const OrderContent = styled.div`
   flex-grow: 1;
-
 `;
-const OrderList = styled.ul`
-
-
-`;
-export const Total = styled.div`
-  display: flex;
-  margin-bottom: 30px;
-  & span:first-child{
-    flex-grow: 1;
-  }
-
-`;
-
-export const TotalPrice = styled.span`
-  text-align: right;
-  min-width: 65px;
-  margin-left: 20px;
-`;
-
 const EmptyList = styled.p`
   text-align: center;
 `;
 
+export const Order = () => {
+  const {
+      orders: {orders, setOrders},
+      auth: {authentication, logIn},
+      orderConfirm: {setOpenOrderConfirm}
+    } = useContext(Context);
 
-
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, setOpenOrderConfirm }) => {
- 
   // удаление элемента
   const deleteItem = index => {
     const newOrders = [...orders];
@@ -70,28 +47,33 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, s
      <OrderTitle>Ваш заказ</OrderTitle>
      <OrderContent>
        {orders.length ? 
-       <OrderList>
+       <ul>
          {orders.map((order, index) => <OrderListItem 
                                           order={order} 
                                           key={index} 
                                           deleteItem={deleteItem}
-                                          index={index}
-                                          setOpenItem={setOpenItem}/> )}
-       </OrderList> : 
+                                          index={index}/> )}
+       </ul> : 
        <EmptyList>Список заказов пуст</EmptyList>}
      </OrderContent>
-     <Total>
-       <span>Итого</span>
-       <span>{totalCounter}</span>
-       <TotalPrice>{formatCurrency(total)}</TotalPrice>
-     </Total>
-     <Button onClick={() => {
-       if (authentication) {
-         setOpenOrderConfirm(true);
-       } else {
-         logIn();
-       }
-     }}>Оформить</Button>
+     {orders.length ? 
+       <>
+        <Total>
+          <span>Итого</span>
+          <span>{totalCounter}</span>
+          <TotalPrice>{formatCurrency(total)}</TotalPrice>
+        </Total>
+        <Button onClick={() => {
+          if (authentication) {
+            setOpenOrderConfirm(true);
+          } else {
+            logIn();
+          }
+          }}>Оформить
+        </Button>
+     </> :
+     null
+     }
     </OrderStyled>
   );
 }

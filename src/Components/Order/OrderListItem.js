@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import styled from 'styled-components';
 import trashImg from '../../image/trash.svg';
-import { totalPriceItems } from '../Functions/secondaryFunctions';
-import { formatCurrency } from '../Functions/secondaryFunctions';
-
+import { totalPriceItems, formatCurrency } from '../Functions/secondaryFunctions';
+import { Context } from '../Functions/context';
 
 const OrderItemStyled = styled.li`
   display: flex;
@@ -34,7 +33,9 @@ const Toppings = styled.div`
   width: 100%;
 `;
 
-export const OrderListItem = ({ order, index, deleteItem, setOpenItem }) => {
+export const OrderListItem = ({ order, index, deleteItem }) => {
+
+  const {openItem: {setOpenItem}} = useContext(Context);
   const topping = order.topping.filter(item => item.checked)
         .map(item => item.name)
         .join(', ');

@@ -19,7 +19,7 @@ export function useToppings(openItem) {
       }
       return newItem;
     }))
-  }
+  };
 
   return {toppings, checkToppings};
 }

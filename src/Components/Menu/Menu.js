@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import  '../Styles/GlobalStyle'
 import {ListItem} from './ListItem';
 import {Banner} from './Banner';
 import { useFetch} from '../Hooks/useFetch';
-import { Context } from '../Functions/context';
-
 
 const MenuStyled = styled.main`
   background-color: #ccc;
@@ -16,15 +14,12 @@ const SectionMenu = styled.section`
   padding: 15px;
   text-align: center;
 `;
-
 // preloader
 const PanLoader = styled.div`
   width: 180px;
   height: 180px;
   margin: 100px auto;
 `;
-
-
 const Loader = styled.div`
   position: relative;
   top: 10%;
@@ -70,42 +65,39 @@ const Shadow = styled.div`
   animation: shadow 2s infinite;
 `;
 
-
-export const Menu = () => {
-  const {openItem: { setOpenItem }} = useContext(Context);
+export const Menu = () => {  
   const res = useFetch();
   const dbMenu = res.response;
   return (
     <MenuStyled>
-    <Banner />    
-    {res.response ? 
-     <>
-       <SectionMenu>
-      <h2>Бургер</h2>
-      <ListItem 
-        itemList={dbMenu.burger}
-        setOpenItem={setOpenItem}
-      />
-    </SectionMenu>
-    <SectionMenu>
-      <h2>Закуски / Напитки</h2>
-      <ListItem 
-        itemList={dbMenu.other}
-        setOpenItem={setOpenItem}
-      />
-    </SectionMenu>
-     </> : res.error ?
-     <div>Sorry, we will fix it</div>
-     :
-     <PanLoader>
-      <Loader/>
-      <PanContainer>
-        <Pan/>
-        <Handle/>
-      </PanContainer>
-      <Shadow />
-    </PanLoader>
-    }
-  </MenuStyled>
+      <Banner />    
+      {res.response ? 
+        <>
+          <SectionMenu>
+          <h2>Бургер</h2>
+          <ListItem 
+            itemList={dbMenu.burger}
+          />
+        </SectionMenu>
+        <SectionMenu>
+          <h2>Закуски / Напитки</h2>
+          <ListItem 
+            itemList={dbMenu.other}
+          />
+        </SectionMenu>
+        </> 
+        : res.error ?
+          <div>Sorry, we will fix it</div>
+          :
+          <PanLoader>
+            <Loader/>
+            <PanContainer>
+              <Pan/>
+              <Handle/>
+            </PanContainer>
+            <Shadow />
+          </PanLoader>
+      }
+    </MenuStyled>
   );
 };
